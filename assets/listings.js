@@ -3,7 +3,7 @@
 // 숫자·후기는 지어내지 않는다.
 
 window.SITE = {
-  name: { ko: '서울의 작은 집들', en: 'Small homes in Seoul' },
+  name: { ko: '서울에 잠시 머무는 집', en: 'A Place to Stay in Seoul' },
   yearsOperating: null,   // 예: 3  → "운영 3년째"
   totalGuests: null,      // 예: 420 → "지금까지 420명이 머물렀어요"
   ratings: [],            // 예: [{ source: 'Airbnb', score: '4.9', count: 120, url: 'https://…' }]
