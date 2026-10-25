@@ -139,8 +139,10 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
 .cards {
   list-style: none; margin: 40px 0 0; padding: 0;
   display: grid; gap: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* 큰 화면은 한 줄에 3채 */
 }
+@media (max-width: 1024px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
 .stay-bar {
   margin-top: 24px; padding: 14px 14px 14px 22px; border-radius: 999px;
   background: var(--lamp); color: var(--ink);
