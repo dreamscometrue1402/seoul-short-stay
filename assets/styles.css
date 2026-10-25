@@ -241,7 +241,7 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
 .reviews em { font-style: normal; opacity: .7; margin-left: 6px; }
 .reviews { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
 .reviews li { padding: 24px; border-radius: 32px; background: var(--ink-2); }
-.reviews blockquote { margin: 0; font-size: 17px; }
+.reviews blockquote { margin: 0; font-size: 17px; white-space: pre-line; }
 .reviews p { margin: 12px 0 0; color: var(--mist); font-size: 14px; }
 
 /* 예약 문의: 다시 불 켜진 방 */

@@ -52,6 +52,30 @@ const HOMES = {
       f('공기청정기', 'Air purifier'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `assets/img/home-1/${i}.jpg`),
+    // 평점·후기 개수는 플랫폼에 보이는 그대로 (별 3개 후기 1개도 포함된 숫자). 후기 글은 별 3개 하나만 빼고 원문 그대로.
+    ratings: [
+      { source: '삼삼엠투', score: '4.8', count: 8 },
+      { source: '엔코스테이', score: '5.0', count: 1 },
+    ],
+    reviews: [
+      { source: '삼삼엠투', date: '2026-08', text: f('위치도 좋고 호스트님도 친절하십니다. 잘 있다 갑니다.', 'Great location and a kind host. Thanks for a good stay.') },
+      { source: '삼삼엠투', date: '2026-05', text: f(
+        '호스트가 친절하고 빠르게 응답하십니다. 주변이 조용하면서 편의시설이 잘 되어있습니다. 대중교통 이용도 편리한 편이라서 좋았습니다. 방이 깨끗하고 좋습니다. 침대가 하드한데 잠자기 편안합니다. 공간이 혼자 지내기 괜찮습니다. 주방용품이나 걸레 청소 도구가 하나도 없는 것이 살짝 아쉽지만 괜찮습니다. 다시 이용 하고픈 곳입니다.',
+        'The host is kind and replies quickly. The area is quiet with plenty of amenities nearby, and public transport is convenient. The room is clean and nice. The bed is firm but comfortable to sleep on. The space works well for one person. It was a little disappointing that there were no kitchen utensils or mop and cleaning tools, but it was fine. A place I would like to stay again.'
+      ) },
+      { source: '삼삼엠투', date: '2026-03', text: f('깨끗하고 따듯해요 호스트분이 너무 친절하세요^^', 'Clean and warm, and the host is very kind ^^') },
+      { source: '삼삼엠투', date: '2026-03', text: f('친철하세요', 'Kind host.') },
+      { source: '엔코스테이', date: '2025-08', text: f(
+        '한국으로 이사 오기 이틀 전에 이 숙소를 찾았어요. 제 모든 필요를 충족시켜주는 정말 멋진 곳이었죠. 깨끗했고 필요한 모든 곳과 가까웠어요. 동네도 마음에 들었고 조용한 분위기도 좋았어요.',
+        'I found this place two days before moving to Korea. It was a wonderful place that met all my needs. It was clean and close to everything I needed. I liked the neighborhood and the quiet atmosphere too.'
+      ) },
+      { source: '삼삼엠투', date: '2025-05', text: f(
+        '지리적으로 위치가 아주 좋습니다.\n홍대와 망원은 비싸지만 오래된 집이 많고,\n합정은 가격이 훨씬 비쌉니다.\n이곳은 합정과 망원의 중간으로, 가격도 나쁘지않고 집들도 그리 낡지않았습니다. 위험한 곳도 아니고, 아주 조용합니다.\n숙소의 퀄리티는 신축은 아니지만 매우 깔끔합니다.\n난방도 잘 되고, 온수도 잘 나오고, 에어컨도 잘 작동합니다.\n내년에 방문시 여전히 가격이 비슷하다면, 또 머물고 싶습니다.\n\n아쉬운 점\n- 화장실 제외하고 거울이 하나 있었으면 좋겠습니다.',
+        'The location is excellent.\nHongdae and Mangwon are pricey and have many old buildings,\nand Hapjeong is much more expensive.\nThis place sits between Hapjeong and Mangwon, the price is reasonable and the building is not old. It is not a risky area, and it is very quiet.\nIt is not a new build, but it is very clean.\nThe heating works well, there is plenty of hot water, and the air conditioner works well.\nIf the price is similar when I visit next year, I would like to stay again.\n\nOne thing to improve\n- It would be nice to have a mirror outside the bathroom.'
+      ) },
+      { source: '삼삼엠투', date: '2025-05', text: f('깨끗하고 위치도 좋아서 편하게 지내다 가요! 합정동에 자주 오는데 다음에 또 이용할게요!', 'Clean and well located, I had a comfortable stay! I come to Hapjeong often and will stay here again next time!') },
+      { source: '삼삼엠투', date: '2025-05', text: f('편히 쉬었습니다', 'I had a restful stay.') },
+    ],
   },
   2: {
     name: f('망원한강공원 원룸', 'Mangwon Hangang Park studio'),
