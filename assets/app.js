@@ -22,7 +22,7 @@
       deposit: '보증금',
       guestsLabel: '인원',
       more: (n) => `외 ${n}개`,
-      fromDate: (d) => `${d}부터`,
+      fromDate: (d) => `${d}부터 계속 가능`,
       fitYes: '이 날짜에 예약 가능',
       fitNo: '이 날짜엔 어려워요',
       fitUnknown: '날짜 확인 필요',
@@ -92,7 +92,7 @@
       deposit: 'Deposit',
       guestsLabel: 'Guests',
       more: (n) => `+${n} more`,
-      fromDate: (d) => `from ${d}`,
+      fromDate: (d) => `From ${d} onward`,
       fitYes: 'Available for your dates',
       fitNo: 'Not available for these dates',
       fitUnknown: 'Dates to be confirmed',
@@ -183,8 +183,7 @@
   const availHtml = (h) => {
     const ws = windows(h);
     if (!ws.length) return `<span class="pending-text">${esc(t('pending'))}</span>`;
-    if (ws.length === 1 && !ws[0].to) return esc(date(ws[0].from));
-    return esc(ws.map(windowText).join(', '));
+    return esc(ws.map(windowText).join(lang === 'ko' ? ', ' : '; '));
   };
   // 고른 날짜에 머물 수 있나: true / false / null(입주일 정보 없음)
   const fits = (h, a, b) => {
