@@ -25,7 +25,7 @@ const emptyHome = (n) => ({
   guests: '1~2',                   // 머물 수 있는 인원. 글로 적으려면 { ko: '인원 제한 없음', en: 'No guest limit' }
   facilities: [],                  // 예: [{ ko: '세탁기', en: 'Washer' }, { ko: '와이파이', en: 'Wi-Fi' }]
   photos: [],                      // 예: ['assets/img/home-1/1.jpg', …] 첫 장이 대표 사진
-  ratings: [],                     // 플랫폼 평점 예: [{ source: '삼삼엠투', score: '4.9', count: 38, url: 'https://…' }]
+  ratings: [],                     // 평점 예: [{ score: '4.9', count: 38 }] (여러 플랫폼이면 별점을 합쳐 한 줄로. 플랫폼 이름은 화면에 안 나온다)
   reviews: [],                     // 후기 원문 예: [{ source: '삼삼엠투', date: '2026-09', text: { ko: '원문', en: '번역' } }] (영어 원문이면 orig: 'en')
 });
 
@@ -52,11 +52,9 @@ const HOMES = {
       f('공기청정기', 'Air purifier'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `assets/img/home-1/${i}.jpg`),
-    // 평점·후기 개수는 플랫폼에 보이는 그대로 (별 3개 후기 1개도 포함된 숫자). 후기 글은 별 3개 하나만 빼고 원문 그대로.
-    ratings: [
-      { source: '삼삼엠투', score: '4.8', count: 8 },
-      { source: '엔코스테이', score: '5.0', count: 1 },
-    ],
+    // 두 플랫폼을 합친 숫자: 삼삼엠투 별점 5,5,3,5,5,5,5,5 + 엔코스테이 5 = 43 / 9개 = 4.78 → 4.8
+    // (별 3개 후기도 숫자에는 포함. 후기 글은 별 3개 하나만 빼고 원문 그대로)
+    ratings: [{ score: '4.8', count: 9 }],
     reviews: [
       { source: '삼삼엠투', date: '2026-08', text: f('위치도 좋고 호스트님도 친절하십니다. 잘 있다 갑니다.', 'Great location and a kind host. Thanks for a good stay.') },
       { source: '삼삼엠투', date: '2026-05', text: f(
@@ -97,7 +95,7 @@ const HOMES = {
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => `assets/img/home-2/${i}.jpg`),
-    ratings: [{ source: '삼삼엠투', score: '4.9', count: 18 }],
+    ratings: [{ score: '4.9', count: 18 }], // 삼삼엠투: 별 5개 16개 + 별 4개 2개 = 88 / 18 = 4.89
     reviews: [
       { source: '삼삼엠투', date: '2026-09', text: f('호스트님도 친절하시고, 머무르게 되어서 행복했던 공간입니다', 'The host was kind, and it was a place I was happy to stay in.') },
       { source: '삼삼엠투', date: '2026-08', orig: 'en', text: f('위치가 정말 좋아요. 망원시장과 한강까지 걸어서 금방이에요.', 'Incredible location. Short walking distance to Mangwon Market and to the Hangang River.') },
