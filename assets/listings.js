@@ -66,7 +66,7 @@ const HOMES = {
     guests: '1~2',
     facilities: [
       f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('인덕션', 'Induction cooktop'), f('와이파이', 'Wi-Fi'),
-      f('에어컨', 'Air conditioner'), f('아일랜드 식탁', 'Kitchen island table'), f('슈퍼싱글 침대', 'Super single bed'),
+      f('에어컨', 'Air conditioner'), f('아일랜드 식탁', 'Kitchen island table'), f('슈퍼싱글 수납 침대', 'Super single storage bed'),
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => `assets/img/home-2/${i}.jpg`),
@@ -86,7 +86,7 @@ const HOMES = {
     guests: '1~2',
     facilities: [
       f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('가스레인지', 'Gas stove'), f('와이파이', 'Wi-Fi'),
-      f('에어컨', 'Air conditioner'), f('간이 테이블과 의자', 'Folding table and chair'), f('슈퍼싱글 침대', 'Super single bed'),
+      f('에어컨', 'Air conditioner'), f('간이 테이블과 의자', 'Folding table and chair'), f('슈퍼싱글 수납 침대', 'Super single storage bed'),
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7].map((i) => `assets/img/home-3/${i}.jpg`),
