@@ -21,6 +21,7 @@ const emptyHome = (n) => ({
   longStay: null,                  // 장기 할인 예: { minWeeks: 4, discountPct: 5 } → 4주 가격을 계산해서 보여 준다
   deposit: null,                   // 보증금(원) 예: 300000
   availableFrom: '',               // 입주 가능일 예: '2026-11-15'
+  availableText: null,             // 가능 기간이 여러 개일 때 그대로 보여 줄 글 (있으면 availableFrom 대신 보인다)
   guests: '1~2',                   // 머물 수 있는 인원
   facilities: [],                  // 예: [{ ko: '세탁기', en: 'Washer' }, { ko: '와이파이', en: 'Wi-Fi' }]
   photos: [],                      // 예: ['assets/img/home-1/1.jpg', …] 첫 장이 대표 사진
@@ -90,6 +91,27 @@ const HOMES = {
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7].map((i) => `assets/img/home-3/${i}.jpg`),
+  },
+  4: {
+    name: f('합정역 도보 7분 풀옵션 원룸', 'Furnished studio, 7 min walk to Hapjeong Stn'),
+    intro: f(
+      '침대와 책상, 주방 가전까지 갖춰져 있어 몸만 들어와 바로 생활할 수 있어요. 혼자 지내기 편안한 원룸이에요.',
+      'A bed, a desk and kitchen appliances are all in place, so you can start living here with just your bags. A comfortable studio for one.'
+    ),
+    area: f('마포구 합정동', 'Hapjeong-dong, Mapo-gu'),
+    station: f('합정역 도보 7분', '7 min walk to Hapjeong Stn'),
+    priceWeek: 270000,
+    longStay: { minWeeks: 4, discountPct: 5 },
+    deposit: 300000,
+    availableFrom: '2026-11-24',
+    availableText: f('2026년 11월 24일 ~ 12월 23일, 2027년 1월 5일부터', 'Nov 24 – Dec 23, 2026, and from Jan 5, 2027'),
+    guests: '1~2',
+    facilities: [
+      f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('가스레인지', 'Gas stove'), f('와이파이', 'Wi-Fi'),
+      f('에어컨', 'Air conditioner'), f('테이블과 의자', 'Table and chair'), f('슈퍼싱글 침대', 'Super single bed'),
+      f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
+    ],
+    photos: [1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => `assets/img/home-4/${i}.jpg`),
   },
 };
 

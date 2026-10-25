@@ -154,6 +154,9 @@
   const longPrice = (h) => (h.priceWeek && h.longStay
     ? Math.round(h.priceWeek * h.longStay.minWeeks * (1 - h.longStay.discountPct / 100))
     : null);
+  const availHtml = (h) => (pick(h.availableText)
+    ? esc(pick(h.availableText))
+    : h.availableFrom ? esc(date(h.availableFrom)) : `<span class="pending-text">${esc(t('pending'))}</span>`);
   const longNote = (h) => (h.longStay ? t('longNote')(h.longStay.minWeeks, h.longStay.discountPct) : '');
 
   /* 숙소 카드 */
@@ -181,7 +184,7 @@
           ${priceHtml}
           <dl class="card-meta">
             <dt>${esc(t('available'))}</dt>
-            <dd>${h.availableFrom ? esc(date(h.availableFrom)) : `<span class="pending-text">${esc(t('pending'))}</span>`}</dd>
+            <dd>${availHtml(h)}</dd>
             ${h.deposit ? `<dt>${esc(t('deposit'))}</dt><dd>${esc(won(h.deposit))}</dd>` : ''}
           </dl>
           ${chips ? `<ul class="chips">${chips}</ul>` : ''}
@@ -300,7 +303,7 @@
       [t('perWeek'), h.priceWeek ? esc(won(h.priceWeek)) : pend],
       [t('perMonth'), lp ? `${esc(won(lp))} <small>${esc(t('unitMonth'))}, ${esc(longNote(h))}</small>` : pend],
       [t('deposit'), h.deposit ? esc(won(h.deposit)) : pend],
-      [t('available'), h.availableFrom ? esc(date(h.availableFrom)) : pend],
+      [t('available'), availHtml(h)],
       [t('guestsLabel'), esc(t('guests')(h.guests))],
       [t('facilities'), h.facilities && h.facilities.length ? esc(h.facilities.map(pick).join(', ')) : pend],
     ];
