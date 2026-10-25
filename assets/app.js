@@ -3,7 +3,7 @@
     ko: {
       skip: '숙소 목록으로 건너뛰기',
       heroTitle: '서울에서, 혼자만의 조용한 집 한 채.',
-      heroSub: '1주부터 몇 달까지, 1~2인이 머물기 좋은 집 6채. 사진·위치·가격·입주일을 비교하고 날짜만 남겨 주세요.',
+      heroSub: '1주부터 몇 달까지, 혼자 지내기 좋은 원룸부터 가족이 함께 머물 투룸까지 집 6채. 사진·위치·가격·입주일을 비교하고 날짜만 남겨 주세요.',
       ctaInquiry: '예약 문의하기',
       ctaBrowse: '숙소 둘러보기',
       quickTitle: '머물 날짜부터 정해 보세요',
@@ -72,7 +72,7 @@
     en: {
       skip: 'Skip to the homes',
       heroTitle: 'A quiet place of your own in Seoul.',
-      heroSub: 'Six homes for one or two, from a week to a few months. Compare photos, location, price and move-in dates, then leave us yours.',
+      heroSub: 'Six homes for a week to a few months, from studios for one to a two-room home for families. Compare photos, location, price and move-in dates, then leave us yours.',
       ctaInquiry: 'Request to book',
       ctaBrowse: 'See the homes',
       quickTitle: 'Start with your dates',
@@ -166,6 +166,8 @@
   const longPrice = (h) => (h.priceWeek && h.longStay
     ? Math.round(h.priceWeek * h.longStay.minWeeks * (1 - h.longStay.discountPct / 100))
     : null);
+  // 인원: '1~2' 같은 숫자면 "1~2인", 글로 적었으면 그 글 그대로
+  const guestsText = (h) => (typeof h.guests === 'object' ? pick(h.guests) : t('guests')(h.guests));
   // 입주 가능 기간: availability가 있으면 그것, 없으면 availableFrom부터 쭉
   const windows = (h) => h.availability || (h.availableFrom ? [{ from: h.availableFrom }] : []);
   const shortDate = (s, withYear) => {
@@ -186,7 +188,9 @@
   const fits = (h, a, b) => {
     const ws = windows(h);
     if (!ws.length) return null;
-    return ws.some((w) => a >= w.from && (!w.to || b <= w.to));
+    // to는 마지막 밤이라 퇴실은 그다음 날까지 된다
+    const nextDay = (s) => { const d = new Date(`${s}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + 1); return d.toISOString().slice(0, 10); };
+    return ws.some((w) => a >= w.from && (!w.to || b <= nextDay(w.to)));
   };
   const stay = () => {
     const f = $('#quick-dates');
@@ -222,7 +226,7 @@
       return `<li class="card${ok === false ? ' is-off' : ''}">
         ${fitBadge}
         <button class="card-photo" type="button" data-open="${esc(h.id)}" aria-label="${esc(pick(h.name))} ${esc(t('details'))}">
-          ${photo}<span class="guests">${esc(t('guests')(h.guests))}</span>${pick(h.highlight) ? `<span class="highlight">${esc(pick(h.highlight))}</span>` : ''}
+          ${photo}<span class="guests">${esc(guestsText(h))}</span>${pick(h.highlight) ? `<span class="highlight">${esc(pick(h.highlight))}</span>` : ''}
         </button>
         <div class="card-body">
           <h3>${esc(pick(h.name))}</h3>
@@ -361,7 +365,7 @@
       [t('perMonth'), lp ? `${esc(won(lp))} <small>${esc(t('unitMonth'))}, ${esc(longNote(h))}</small>` : pend],
       [t('deposit'), h.deposit ? esc(won(h.deposit)) : pend],
       [t('available'), availHtml(h)],
-      [t('guestsLabel'), esc(t('guests')(h.guests))],
+      [t('guestsLabel'), esc(guestsText(h))],
       [t('facilities'), h.facilities && h.facilities.length ? esc(h.facilities.map(pick).join(', ')) : pend],
     ];
     $('#detail-facts').innerHTML = rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('');
