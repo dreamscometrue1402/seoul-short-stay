@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>서울 단기임대 숙소 6채 — 혼자 머물기 좋은 집</title>
+  <meta name="description" content="서울에서 1주부터 몇 달까지, 1~2인이 머물기 좋은 집 6채. 사진·위치·가격·입주일을 비교하고 예약 문의를 남겨 주세요.">
+  <meta name="theme-color" content="#F7D44A">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <a class="skip" href="#listings" data-i18n="skip">숙소 목록으로 건너뛰기</a>
+
+  <header class="top">
+    <a class="brand" href="#" data-site-name>서울의 작은 집 여섯 채</a>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="ko" aria-pressed="true">한</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 첫 화면: 불 켜진 방 -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title" data-i18n="heroTitle">서울에서, 혼자만의 조용한 집 한 채.</h1>
+        <p class="hero-sub" data-i18n="heroSub">1주부터 몇 달까지, 1~2인이 머물기 좋은 집 6채. 사진·위치·가격·입주일을 비교하고 날짜만 남겨 주세요.</p>
+        <div class="hero-actions">
+          <a class="pill pill-dark" href="#inquiry" data-i18n="ctaInquiry">예약 문의하기</a>
+          <a class="pill pill-line" href="#listings" data-i18n="ctaBrowse">숙소 둘러보기</a>
+        </div>
+      </div>
+
+      <div class="window" aria-hidden="false">
+        <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+        <form class="glass date-card" id="quick-dates" novalidate>
+          <p class="glass-title" data-i18n="quickTitle">머물 날짜부터 정해 보세요</p>
+          <label>
+            <span data-i18n="checkIn">입주</span>
+            <input type="date" name="checkIn" required>
+          </label>
+          <label>
+            <span data-i18n="checkOut">퇴실</span>
+            <input type="date" name="checkOut" required>
+          </label>
+          <p class="quick-nights" aria-live="polite"></p>
+          <button class="pill pill-lamp" type="submit" data-i18n="quickGo">이 날짜로 집 고르기</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 숙소 6채 비교 -->
+    <section class="night" id="listings" aria-labelledby="listings-title">
+      <div class="section-head">
+        <h2 id="listings-title" data-i18n="listingsTitle">여섯 채를 나란히 비교해 보세요</h2>
+        <div class="price-toggle" role="group" aria-label="가격 기준" data-i18n-aria="priceBasis">
+          <button type="button" data-basis="week" aria-pressed="true" data-i18n="perWeek">1주 기준</button>
+          <button type="button" data-basis="month" aria-pressed="false" data-i18n="perMonth">1달 기준</button>
+        </div>
+      </div>
+      <p class="section-note" data-i18n="photosReal">사진은 모두 직접 찍은 실제 사진이에요.</p>
+      <ul class="cards" id="cards"></ul>
+    </section>
+
+    <!-- 위치 -->
+    <section class="night where" aria-labelledby="where-title">
+      <h2 id="where-title" data-i18n="whereTitle">어디에 있나요</h2>
+      <ol class="where-list" id="where-list"></ol>
+    </section>
+
+    <!-- 믿을 근거 · 후기: 실제 값이 있을 때만 보인다 -->
+    <section class="trust" id="trust" hidden aria-labelledby="trust-title">
+      <h2 id="trust-title" class="sr-only" data-i18n="trustTitle">머물렀던 분들의 기록</h2>
+      <ul class="trust-pills" id="trust-pills"></ul>
+      <ul class="reviews" id="reviews"></ul>
+    </section>
+
+    <!-- 예약 문의 -->
+    <section class="inquiry" id="inquiry" aria-labelledby="inquiry-title">
+      <div class="inquiry-copy">
+        <h2 id="inquiry-title" data-i18n="inquiryTitle">마음에 드는 집과 날짜를 남겨 주세요</h2>
+        <p data-i18n="inquirySub">확인한 뒤 남겨 주신 연락처로 가능 여부와 안내를 드릴게요. 아직 결제나 확정 단계가 아니에요.</p>
+      </div>
+
+      <form class="inquiry-form" id="inquiry-form" novalidate>
+        <label class="field">
+          <span data-i18n="fName">이름</span>
+          <input name="name" autocomplete="name" maxlength="50" required>
+        </label>
+        <label class="field">
+          <span data-i18n="fContact">연락처</span>
+          <input name="contact" autocomplete="email" maxlength="100" required>
+          <small data-i18n="fContactHint">전화번호, 이메일, 카카오톡 ID, WhatsApp 중 편한 것</small>
+        </label>
+        <label class="field">
+          <span data-i18n="fHome">원하는 숙소</span>
+          <select name="listing" required id="listing-select"></select>
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span data-i18n="checkIn">입주</span>
+            <input type="date" name="checkIn" required>
+          </label>
+          <label class="field">
+            <span data-i18n="checkOut">퇴실</span>
+            <input type="date" name="checkOut" required>
+          </label>
+        </div>
+        <input class="trap" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="consent">
+          <input type="checkbox" name="consent" required>
+          <span data-i18n="fConsent">(필수) 예약 문의에 답하기 위해 이름·연락처·희망 숙소·날짜를 받고, 문의 처리 후 1년 뒤 지워요. 이에 동의해요.</span>
+        </label>
+        <button class="pill pill-dark submit" type="submit" data-i18n="fSubmit">예약 문의 보내기</button>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p data-site-name>서울의 작은 집 여섯 채</p>
+    <p data-i18n="footNote">서울 단기·중기 임대 숙소 소개와 예약 문의</p>
+  </footer>
+
+  <dialog class="detail" id="detail" aria-labelledby="detail-title">
+    <div class="detail-inner">
+      <button class="close" type="button" data-close data-i18n-aria="close" aria-label="닫기">×</button>
+      <div class="gallery" id="detail-gallery"></div>
+      <div class="detail-body">
+        <h3 id="detail-title"></h3>
+        <dl class="facts" id="detail-facts"></dl>
+        <button class="pill pill-lamp" type="button" id="detail-ask" data-i18n="askThis">이 집으로 문의하기</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="assets/listings.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
