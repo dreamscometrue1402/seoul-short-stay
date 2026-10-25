@@ -173,7 +173,7 @@
         + (fac.length > 5 ? `<li class="more">${esc(t('more')(fac.length - 5))}</li>` : '');
       return `<li class="card">
         <button class="card-photo" type="button" data-open="${esc(h.id)}" aria-label="${esc(pick(h.name))} ${esc(t('details'))}">
-          ${photo}<span class="guests">${esc(t('guests')(h.guests))}</span>
+          ${photo}<span class="guests">${esc(t('guests')(h.guests))}</span>${pick(h.highlight) ? `<span class="highlight">${esc(pick(h.highlight))}</span>` : ''}
         </button>
         <div class="card-body">
           <h3>${esc(pick(h.name))}</h3>

@@ -13,6 +13,7 @@ window.SITE = {
 const emptyHome = (n) => ({
   id: `home-${n}`,
   name: { ko: `숙소 ${n}`, en: `Home ${n}` },
+  highlight: null,                 // 카드 사진 위에 띄울 자랑거리 예: { ko: '한강공원 도보 3분', en: '3 min walk to Hangang Park' }
   intro: { ko: '', en: '' },       // 한 줄 소개
   area: { ko: '', en: '' },        // 동네 예: { ko: '마포구 연남동', en: 'Yeonnam-dong, Mapo-gu' }
   station: { ko: '', en: '' },     // 가까운 역 예: { ko: '홍대입구역 도보 7분', en: '7 min walk to Hongik Univ. Stn' }
@@ -51,12 +52,13 @@ const HOMES = {
   },
   2: {
     name: f('망원한강공원 원룸', 'Mangwon Hangang Park studio'),
+    highlight: f('한강공원 도보 3분', '3 min walk to Hangang Park'),
     intro: f(
-      '필요한 기본 옵션이 모두 있어 몸만 들어와 바로 생활할 수 있어요. 아일랜드 식탁이 있어 혼자 지내기 편안한 원룸이에요.',
-      'All the basics are already here, so you can move in with just your bags. A comfortable studio for one, with a kitchen island table.'
+      '한강공원까지 걸어서 3분, 언제든 강변을 산책할 수 있어요. 필요한 기본 옵션이 모두 있어 몸만 들어와 바로 생활할 수 있는 원룸이에요.',
+      'Hangang Park is a 3-minute walk away, so the riverside is always close by. All the basics are already here, so you can move in with just your bags.'
     ),
     area: f('마포구 망원동', 'Mangwon-dong, Mapo-gu'),
-    station: f('망원역', 'Mangwon Station'),
+    station: f('한강공원 도보 3분, 버스정류장 도보 1분, 망원역 도보 12분', '3 min walk to Hangang Park, 1 min to the bus stop, 12 min to Mangwon Stn'),
     priceWeek: 260000,
     longStay: { minWeeks: 4, discountPct: 5 },
     deposit: 300000,

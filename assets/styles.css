@@ -163,6 +163,13 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
   position: absolute; top: 14px; right: 14px; padding: 6px 12px; border-radius: 999px;
   background: var(--lamp); color: var(--ink); font-size: 13px; font-weight: 700;
 }
+.highlight {
+  position: absolute; left: 14px; bottom: 14px; padding: 8px 14px; border-radius: 999px;
+  background: rgba(21, 23, 42, .62); color: var(--moon); font-size: 14px; font-weight: 700;
+  border: 1px solid var(--glass-line);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.highlight::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: var(--lamp); vertical-align: 1px; }
 .card-body { padding: 22px 22px 24px; display: grid; gap: 14px; flex: 1; }
 .card h3 { font-size: 24px; font-weight: 750; }
 .card-where { margin: -8px 0 0; color: var(--mist); font-size: 15px; }
