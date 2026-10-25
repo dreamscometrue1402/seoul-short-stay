@@ -138,6 +138,26 @@ const HOMES = {
     ],
     photos: [1, 2, 3, 4, 5, 6].map((i) => `assets/img/home-5/${i}.jpg`),
   },
+  6: {
+    name: f('합정역 도보 8분 풀옵션 원룸', 'Furnished studio, 8 min walk to Hapjeong Stn'),
+    intro: f(
+      '살림에 필요한 기본 옵션이 다 있어 몸만 들어와 바로 생활할 수 있어요. 혼자 살기 딱 좋은 아늑한 원룸이에요.',
+      'All the basics for daily life are here, so you can move in with just your bags. A cozy studio just right for living on your own.'
+    ),
+    area: f('마포구 합정동', 'Hapjeong-dong, Mapo-gu'),
+    station: f('합정역 도보 8분', '8 min walk to Hapjeong Stn'),
+    priceWeek: 260000,
+    longStay: { minWeeks: 4, discountPct: 5 },
+    deposit: 300000,
+    availableFrom: '2026-11-12',
+    guests: '1~2',
+    facilities: [
+      f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('가스레인지', 'Gas stove'), f('와이파이', 'Wi-Fi'),
+      f('에어컨', 'Air conditioner'), f('책상과 의자', 'Desk and chair'), f('슈퍼싱글 침대', 'Super single bed'),
+      f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('옷장', 'Wardrobe'), f('신발장', 'Shoe cabinet'),
+    ],
+    photos: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `assets/img/home-6/${i}.jpg`),
+  },
 };
 
 window.LISTINGS = [1, 2, 3, 4, 5, 6].map((n) => ({ ...emptyHome(n), ...(HOMES[n] || {}) }));
