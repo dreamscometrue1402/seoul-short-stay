@@ -29,7 +29,7 @@ const f = (ko, en) => ({ ko, en });
 
 const HOMES = {
   1: {
-    name: f('합정역 8번 출구 도보 5분 풀옵션 원룸', 'Fully furnished studio, 5 min walk from Hapjeong Station Exit 8'),
+    name: f('합정역 도보 5분 풀옵션 원룸', 'Furnished studio, 5 min walk to Hapjeong Stn'),
     intro: f(
       '몸만 들어와도 바로 생활할 수 있도록 필요한 기본 옵션을 모두 갖췄어요. 혼자 지내기 좋은 아늑한 원룸이에요.',
       'Everything you need is already in place, so you can move in with just your bags. A cozy studio made for living on your own.'
