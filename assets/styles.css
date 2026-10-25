@@ -227,6 +227,18 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
 }
 .trust-pills li::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: var(--lamp); box-shadow: 0 0 12px var(--lamp); }
 .trust-pills a { color: inherit; }
+.trust h2 { font-size: clamp(28px, 3.6vw, 48px); font-weight: 800; margin-bottom: 28px; }
+.card-rating { margin: -6px 0 0; font-size: 16px; font-weight: 700; color: var(--lamp); }
+.card-rating small { margin-left: 4px; font-size: 14px; font-weight: 500; color: var(--mist); }
+.detail-reviews { display: grid; gap: 12px; padding-top: 8px; border-top: 1px solid var(--ink-3); }
+.detail-reviews h4 { margin: 8px 0 0; font-size: 18px; }
+.rating-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.rating-list li { padding: 8px 14px; border-radius: 999px; background: var(--ink-3); font-size: 14px; font-weight: 600; }
+.rating-list a { color: var(--lamp); }
+.detail-reviews .reviews { margin: 0; grid-template-columns: 1fr; }
+.detail-reviews .reviews li { background: var(--ink-3); padding: 18px; border-radius: 22px; }
+.detail-reviews blockquote { font-size: 15px; }
+.reviews em { font-style: normal; opacity: .7; margin-left: 6px; }
 .reviews { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
 .reviews li { padding: 24px; border-radius: 32px; background: var(--ink-2); }
 .reviews blockquote { margin: 0; font-size: 17px; }

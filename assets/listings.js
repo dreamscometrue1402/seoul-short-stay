@@ -4,11 +4,8 @@
 
 window.SITE = {
   name: { ko: '서울에 잠시 머무는 집', en: 'A Place to Stay in Seoul' },
-  yearsOperating: null,   // 예: 3  → "운영 3년째"
-  totalGuests: null,      // 예: 420 → "지금까지 420명이 머물렀어요"
-  ratings: [],            // 예: [{ source: 'Airbnb', score: '4.9', count: 120, url: 'https://…' }]
-  reviews: [],            // 예: [{ source: 'Airbnb', text: { ko: '원문', en: '원문' }, date: '2026-09' }]
 };
+// 평점과 후기는 집마다 넣는다 (아래 ratings, reviews). 후기는 원문 그대로, 손님 이름은 넣지 않는다.
 
 const emptyHome = (n) => ({
   id: `home-${n}`,
@@ -28,6 +25,8 @@ const emptyHome = (n) => ({
   guests: '1~2',                   // 머물 수 있는 인원. 글로 적으려면 { ko: '인원 제한 없음', en: 'No guest limit' }
   facilities: [],                  // 예: [{ ko: '세탁기', en: 'Washer' }, { ko: '와이파이', en: 'Wi-Fi' }]
   photos: [],                      // 예: ['assets/img/home-1/1.jpg', …] 첫 장이 대표 사진
+  ratings: [],                     // 플랫폼 평점 예: [{ source: '삼삼엠투', score: '4.9', count: 38, url: 'https://…' }]
+  reviews: [],                     // 후기 원문 예: [{ source: '삼삼엠투', date: '2026-09', text: { ko: '원문', en: '번역' } }]
 });
 
 const f = (ko, en) => ({ ko, en });

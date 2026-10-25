@@ -42,10 +42,11 @@
       askThis: '이 집으로 문의하기',
       whereTitle: '어디에 있나요',
       wherePending: '위치 준비 중',
-      trustTitle: '머물렀던 분들의 기록',
-      years: (n) => `운영 ${n}년째`,
-      totalGuests: (n) => `지금까지 ${n.toLocaleString('ko-KR')}명이 머물렀어요`,
-      rating: (r) => `${r.source} 평점 ${r.score}${r.count ? ` (후기 ${r.count}개)` : ''}`,
+      trustTitle: '머물렀던 분들의 후기',
+      reviewsTitle: '후기',
+      rating: (r) => `${r.source} 평점 ${r.score}${r.count ? `, 후기 ${r.count}개` : ''}`,
+      ratingShort: (r) => `${r.source} 후기 ${r.count}개`,
+      translated: '',
       inquiryTitle: '마음에 드는 집과 날짜를 남겨 주세요',
       inquirySub: '확인한 뒤 남겨 주신 연락처로 가능 여부와 안내를 드릴게요. 아직 결제나 확정 단계가 아니에요.',
       fName: '이름',
@@ -111,10 +112,11 @@
       askThis: 'Ask about this home',
       whereTitle: 'Where they are',
       wherePending: 'Location coming soon',
-      trustTitle: 'From past guests',
-      years: (n) => `Hosting for ${n} years`,
-      totalGuests: (n) => `${n.toLocaleString('en-US')} guests have stayed so far`,
-      rating: (r) => `${r.score} on ${r.source}${r.count ? ` (${r.count} reviews)` : ''}`,
+      trustTitle: 'What past guests said',
+      reviewsTitle: 'Reviews',
+      rating: (r) => `${r.score} on ${r.source}${r.count ? `, ${r.count} reviews` : ''}`,
+      ratingShort: (r) => `${r.count} reviews on ${r.source}`,
+      translated: 'Translated from Korean',
       inquiryTitle: 'Tell us the home and dates you want',
       inquirySub: "We'll check and get back to you with availability and details. Nothing is charged or confirmed yet.",
       fName: 'Name',
@@ -231,6 +233,7 @@
         <div class="card-body">
           <h3>${esc(pick(h.name))}</h3>
           <p class="card-where">${where ? esc(where) : `<span class="pending-text">${esc(t('wherePending'))}</span>`}</p>
+          ${(h.ratings || [])[0] ? `<p class="card-rating"><span aria-hidden="true">★</span> ${esc(h.ratings[0].score)}${h.ratings[0].count ? ` <small>${esc(t('ratingShort')(h.ratings[0]))}</small>` : ''}</p>` : ''}
           ${priceHtml}
           <dl class="card-meta">
             <dt>${esc(t('available'))}</dt>
@@ -261,18 +264,30 @@
     }).join('');
   }
 
+  // 후기 날짜 '2026-09' → "2026년 9월" / "Sep 2026"
+  const month = (s) => {
+    if (!s) return '';
+    const [y, m] = s.split('-').map(Number);
+    return lang === 'ko' ? `${y}년 ${m}월` : new Date(Date.UTC(y, m - 1, 1)).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+  };
+  const ratingLink = (r) => {
+    const label = esc(t('rating')(r));
+    return r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${label}</a>` : label;
+  };
+  const reviewItem = (r, home) => {
+    const meta = [home ? pick(home.name) : '', r.source, month(r.date)].filter(Boolean).join(', ');
+    const note = lang === 'en' && t('translated') ? ` <em>${esc(t('translated'))}</em>` : '';
+    return `<li><blockquote>${esc(pick(r.text))}</blockquote><p>${esc(meta)}${note}</p></li>`;
+  };
+
+  // 첫 화면 아래 후기 모음: 모든 집의 후기를 최근 것부터 6개까지
   function renderTrust() {
-    const pills = [];
-    if (site.yearsOperating) pills.push(esc(t('years')(site.yearsOperating)));
-    if (site.totalGuests) pills.push(esc(t('totalGuests')(site.totalGuests)));
-    (site.ratings || []).forEach((r) => {
-      const label = esc(t('rating')(r));
-      pills.push(r.url ? `<a href="${esc(r.url)}" target="_blank" rel="noopener">${label}</a>` : label);
-    });
-    const reviews = (site.reviews || []).map((r) => `<li><blockquote>${esc(pick(r.text))}</blockquote><p>${esc([r.source, r.date].filter(Boolean).join(', '))}</p></li>`);
-    $('#trust-pills').innerHTML = pills.map((p) => `<li>${p}</li>`).join('');
-    $('#reviews').innerHTML = reviews.join('');
-    $('#trust').hidden = !pills.length && !reviews.length;
+    const all = homes.flatMap((h) => (h.reviews || []).map((r) => ({ r, h })))
+      .sort((x, y) => String(y.r.date || '').localeCompare(String(x.r.date || '')))
+      .slice(0, 6);
+    $('#trust-pills').innerHTML = '';
+    $('#reviews').innerHTML = all.map(({ r, h }) => reviewItem(r, h)).join('');
+    $('#trust').hidden = !all.length;
   }
 
   function renderSelect() {
@@ -369,6 +384,11 @@
       [t('facilities'), h.facilities && h.facilities.length ? esc(h.facilities.map(pick).join(', ')) : pend],
     ];
     $('#detail-facts').innerHTML = rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('');
+    const rs = h.ratings || []; const rv = h.reviews || [];
+    $('#detail-reviews').hidden = !rs.length && !rv.length;
+    $('#detail-reviews').innerHTML = `<h4>${esc(t('reviewsTitle'))}</h4>`
+      + (rs.length ? `<ul class="rating-list">${rs.map((r) => `<li>${ratingLink(r)}</li>`).join('')}</ul>` : '')
+      + (rv.length ? `<ul class="reviews">${rv.map((r) => reviewItem(r)).join('')}</ul>` : '');
   }
   function ask(id) {
     if (dlg.open) dlg.close();
