@@ -170,11 +170,13 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
 .card-price { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.03em; color: var(--lamp); }
 .card-price small { font-size: 14px; font-weight: 500; color: var(--mist); letter-spacing: 0; margin-left: 4px; }
 .card-price.pending { font-size: 18px; color: var(--mist); font-weight: 600; }
+.card-note { margin: -10px 0 0; font-size: 14px; color: var(--mist); }
 .card-meta { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 15px; }
 .card-meta dt { color: var(--mist); }
 .card-meta dd { margin: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0; }
 .chips li { padding: 4px 12px; border-radius: 999px; background: var(--ink-3); font-size: 13px; }
+.chips li.more { background: transparent; border: 1px solid var(--ink-3); color: var(--mist); }
 .card-actions { display: flex; gap: 8px; margin-top: auto; padding-top: 4px; }
 .card-actions .pill { min-height: 46px; padding: 0 18px; font-size: 15px; flex: 1; }
 .pill-ghost { background: transparent; color: var(--moon); border-color: var(--ink-3); }
@@ -184,7 +186,7 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
 .where { padding-top: clamp(64px, 8vw, 112px); padding-bottom: clamp(80px, 10vw, 140px); }
 .where-list { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 0; max-width: 760px; }
 .where-list li {
-  display: grid; grid-template-columns: 9ch 1fr; gap: 16px; align-items: baseline;
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; align-items: baseline;
   padding: 18px 0; border-bottom: 1px solid var(--ink-3);
 }
 .where-list strong { font-weight: 700; }
@@ -257,8 +259,28 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
   position: absolute; top: 14px; right: 14px; z-index: 2; width: 44px; height: 44px; border-radius: 50%;
   border: 0; background: var(--lamp); color: var(--ink); font-size: 26px; line-height: 1; cursor: pointer;
 }
-.gallery { display: grid; gap: 4px; background: var(--ink-3); min-height: 280px; position: relative; }
-.gallery img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.gallery { background: #0E1020; min-height: 280px; position: relative; align-self: stretch; }
+.slides {
+  display: flex; height: 100%; min-height: 360px; max-height: calc(100svh - 32px);
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
+}
+.slides::-webkit-scrollbar { display: none; }
+.slides img { flex: 0 0 100%; width: 100%; height: 100%; object-fit: contain; scroll-snap-align: center; }
+.slide-count {
+  position: absolute; left: 14px; bottom: 14px; padding: 6px 12px; border-radius: 999px;
+  background: rgba(14, 16, 32, .7); color: var(--moon); font-size: 13px; font-weight: 600;
+}
+.slide-nav {
+  position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--glass-line); background: rgba(14, 16, 32, .6); color: var(--moon);
+  font-size: 26px; line-height: 1; cursor: pointer;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.slide-nav.prev { left: 12px; }
+.slide-nav.next { right: 12px; }
+.slide-nav:hover { background: var(--lamp); color: var(--ink); }
+.detail-intro { margin: -8px 0 0; font-size: 16px; color: var(--moon); opacity: .86; }
+.facts dd small { display: block; font-size: 14px; font-weight: 400; color: var(--mist); }
 .detail-body { padding: 32px 28px; display: grid; gap: 20px; align-content: start; }
 .detail-body h3 { font-size: 32px; font-weight: 800; padding-right: 48px; }
 .facts { margin: 0; display: grid; gap: 14px; }
@@ -283,6 +305,7 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
   .window { min-height: 0; padding: 56px 0; border-radius: 120px 40px 120px 48px; }
   .inquiry { grid-template-columns: 1fr; border-radius: 28px 96px 0 0; }
   .detail-inner { grid-template-columns: 1fr; }
+  .slides { min-height: 0; height: auto; aspect-ratio: 4 / 5; max-height: 62svh; }
   .submit { justify-self: stretch; }
 }
 @media (max-width: 420px) {

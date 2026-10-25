@@ -15,9 +15,15 @@
       listingsTitle: '여섯 채를 나란히 비교해 보세요',
       priceBasis: '가격 기준',
       perWeek: '1주 기준',
-      perMonth: '1달 기준',
+      perMonth: '4주 이상',
       unitWeek: '/ 1주',
-      unitMonth: '/ 1달',
+      unitMonth: '/ 4주',
+      longNote: (w, p) => `${w}주 이상 머물면 ${p}% 할인`,
+      deposit: '보증금',
+      guestsLabel: '인원',
+      more: (n) => `외 ${n}개`,
+      prevPhoto: '이전 사진',
+      nextPhoto: '다음 사진',
       photosReal: '사진은 모두 직접 찍은 실제 사진이에요.',
       photoPending: '사진 준비 중',
       pricePending: '가격 준비 중',
@@ -72,9 +78,15 @@
       listingsTitle: 'Compare all six side by side',
       priceBasis: 'Price basis',
       perWeek: 'Per week',
-      perMonth: 'Per month',
+      perMonth: '4+ weeks',
       unitWeek: '/ week',
-      unitMonth: '/ month',
+      unitMonth: '/ 4 weeks',
+      longNote: (w, p) => `${p}% off for stays of ${w}+ weeks`,
+      deposit: 'Deposit',
+      guestsLabel: 'Guests',
+      more: (n) => `+${n} more`,
+      prevPhoto: 'Previous photo',
+      nextPhoto: 'Next photo',
       photosReal: 'Every photo is a real photo we took ourselves.',
       photoPending: 'Photos coming soon',
       pricePending: 'Price coming soon',
@@ -138,18 +150,27 @@
     return d.toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
 
+  // 4주 가격: 1주 가격 × 4에서 장기 할인율만큼 뺀다 (사장님이 준 규칙 그대로)
+  const longPrice = (h) => (h.priceWeek && h.longStay
+    ? Math.round(h.priceWeek * h.longStay.minWeeks * (1 - h.longStay.discountPct / 100))
+    : null);
+  const longNote = (h) => (h.longStay ? t('longNote')(h.longStay.minWeeks, h.longStay.discountPct) : '');
+
   /* 숙소 카드 */
   function renderCards() {
     $('#cards').innerHTML = homes.map((h) => {
       const photo = h.photos && h.photos[0]
         ? `<img src="${esc(h.photos[0])}" alt="${esc(pick(h.name))}" loading="lazy">`
         : `<span class="photo-empty"><span>${esc(t('photoPending'))}</span></span>`;
-      const price = basis === 'week' ? h.priceWeek : h.priceMonth;
+      const price = basis === 'week' ? h.priceWeek : longPrice(h);
+      const note = basis === 'week' ? '' : longNote(h);
       const priceHtml = price
-        ? `<p class="card-price">${esc(won(price))}<small>${esc(t(basis === 'week' ? 'unitWeek' : 'unitMonth'))}</small></p>`
+        ? `<p class="card-price">${esc(won(price))}<small>${esc(t(basis === 'week' ? 'unitWeek' : 'unitMonth'))}</small></p>${note ? `<p class="card-note">${esc(note)}</p>` : ''}`
         : `<p class="card-price pending">${esc(t('pricePending'))}</p>`;
       const where = [pick(h.area), pick(h.station)].filter(Boolean).join(', ');
-      const chips = (h.facilities || []).map((f) => `<li>${esc(pick(f))}</li>`).join('');
+      const fac = h.facilities || [];
+      const chips = fac.slice(0, 5).map((x) => `<li>${esc(pick(x))}</li>`).join('')
+        + (fac.length > 5 ? `<li class="more">${esc(t('more')(fac.length - 5))}</li>` : '');
       return `<li class="card">
         <button class="card-photo" type="button" data-open="${esc(h.id)}" aria-label="${esc(pick(h.name))} ${esc(t('details'))}">
           ${photo}<span class="guests">${esc(t('guests')(h.guests))}</span>
@@ -161,6 +182,7 @@
           <dl class="card-meta">
             <dt>${esc(t('available'))}</dt>
             <dd>${h.availableFrom ? esc(date(h.availableFrom)) : `<span class="pending-text">${esc(t('pending'))}</span>`}</dd>
+            ${h.deposit ? `<dt>${esc(t('deposit'))}</dt><dd>${esc(won(h.deposit))}</dd>` : ''}
           </dl>
           ${chips ? `<ul class="chips">${chips}</ul>` : ''}
           <div class="card-actions">
@@ -254,17 +276,32 @@
     const h = homes.find((x) => x.id === id); if (!h) return;
     dlg.dataset.home = id;
     $('#detail-title').textContent = pick(h.name);
-    $('#detail-gallery').innerHTML = h.photos && h.photos.length
-      ? h.photos.map((p, i) => `<img src="${esc(p)}" alt="${esc(pick(h.name))} ${i + 1}" loading="lazy">`).join('')
+    const photos = h.photos || [];
+    $('#detail-gallery').innerHTML = photos.length
+      ? `<div class="slides">${photos.map((p, i) => `<img src="${esc(p)}" alt="${esc(pick(h.name))} ${i + 1}" loading="lazy">`).join('')}</div>`
+        + (photos.length > 1 ? `<span class="slide-count">1 / ${photos.length}</span>
+          <button class="slide-nav prev" type="button" data-slide="-1" aria-label="${esc(t('prevPhoto'))}">‹</button>
+          <button class="slide-nav next" type="button" data-slide="1" aria-label="${esc(t('nextPhoto'))}">›</button>` : '')
       : `<span class="photo-empty"><span>${esc(t('photoPending'))}</span></span>`;
+    const slides = $('.slides', dlg);
+    if (slides) {
+      slides.addEventListener('scroll', () => {
+        const i = Math.round(slides.scrollLeft / slides.clientWidth) + 1;
+        const c = $('.slide-count', dlg); if (c) c.textContent = `${i} / ${photos.length}`;
+      }, { passive: true });
+    }
+    $('#detail-intro').textContent = pick(h.intro);
+    $('#detail-intro').hidden = !pick(h.intro);
     const pend = `<span class="pending-text">${esc(t('pending'))}</span>`;
     const where = [pick(h.area), pick(h.station)].filter(Boolean).join(', ');
+    const lp = longPrice(h);
     const rows = [
       [t('where'), where ? esc(where) : pend],
       [t('perWeek'), h.priceWeek ? esc(won(h.priceWeek)) : pend],
-      [t('perMonth'), h.priceMonth ? esc(won(h.priceMonth)) : pend],
+      [t('perMonth'), lp ? `${esc(won(lp))} <small>${esc(t('unitMonth'))}, ${esc(longNote(h))}</small>` : pend],
+      [t('deposit'), h.deposit ? esc(won(h.deposit)) : pend],
       [t('available'), h.availableFrom ? esc(date(h.availableFrom)) : pend],
-      [lang === 'ko' ? '인원' : 'Guests', esc(t('guests')(h.guests))],
+      [t('guestsLabel'), esc(t('guests')(h.guests))],
       [t('facilities'), h.facilities && h.facilities.length ? esc(h.facilities.map(pick).join(', ')) : pend],
     ];
     $('#detail-facts').innerHTML = rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${v}</dd></div>`).join('');
@@ -278,6 +315,8 @@
   document.addEventListener('click', (e) => {
     const o = e.target.closest('[data-open]'); if (o) { fillDetail(o.dataset.open); dlg.showModal(); return; }
     const a = e.target.closest('[data-ask]'); if (a) { ask(a.dataset.ask); return; }
+    const s = e.target.closest('[data-slide]');
+    if (s) { const sl = $('.slides', dlg); sl.scrollBy({ left: sl.clientWidth * Number(s.dataset.slide), behavior: 'smooth' }); return; }
     if (e.target.closest('[data-close]') || e.target === dlg) dlg.close();
   });
   $('#detail-ask').addEventListener('click', () => ask(dlg.dataset.home));
