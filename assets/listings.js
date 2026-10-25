@@ -71,6 +71,26 @@ const HOMES = {
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => `assets/img/home-2/${i}.jpg`),
   },
+  3: {
+    name: f('망리단길 풀옵션 원룸', 'Furnished studio on Mangridan-gil'),
+    intro: f(
+      '필요한 기본 옵션을 모두 갖춰 몸만 들어와 바로 지낼 수 있어요. 혼자 머물기 좋은 아늑한 원룸이에요.',
+      'Fully equipped with the essentials, so you can settle in with just your bags. A cozy studio for staying on your own.'
+    ),
+    area: f('마포구 망원동', 'Mangwon-dong, Mapo-gu'),
+    station: f('망원역 도보 7분', '7 min walk to Mangwon Stn'),
+    priceWeek: 270000,
+    longStay: { minWeeks: 4, discountPct: 5 },
+    deposit: 300000,
+    availableFrom: '2026-11-16',
+    guests: '1~2',
+    facilities: [
+      f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('가스레인지', 'Gas stove'), f('와이파이', 'Wi-Fi'),
+      f('에어컨', 'Air conditioner'), f('간이 테이블과 의자', 'Folding table and chair'), f('슈퍼싱글 침대', 'Super single bed'),
+      f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
+    ],
+    photos: [1, 2, 3, 4, 5, 6, 7].map((i) => `assets/img/home-3/${i}.jpg`),
+  },
 };
 
 window.LISTINGS = [1, 2, 3, 4, 5, 6].map((n) => ({ ...emptyHome(n), ...(HOMES[n] || {}) }));
