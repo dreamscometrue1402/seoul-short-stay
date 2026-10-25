@@ -22,6 +22,12 @@
       deposit: '보증금',
       guestsLabel: '인원',
       more: (n) => `외 ${n}개`,
+      fromDate: (d) => `${d}부터`,
+      fitYes: '이 날짜에 예약 가능',
+      fitNo: '이 날짜엔 어려워요',
+      fitUnknown: '날짜 확인 필요',
+      stayResult: (a, b, n) => (n ? `${a} ~ ${b}에 머물 수 있는 집 ${n}채` : `${a} ~ ${b}에 바로 머물 수 있는 집이 없어요. 날짜를 바꾸거나 문의해 주세요.`),
+      clearDates: '날짜 지우기',
       prevPhoto: '이전 사진',
       nextPhoto: '다음 사진',
       photosReal: '사진은 모두 직접 찍은 실제 사진이에요.',
@@ -85,6 +91,12 @@
       deposit: 'Deposit',
       guestsLabel: 'Guests',
       more: (n) => `+${n} more`,
+      fromDate: (d) => `from ${d}`,
+      fitYes: 'Available for your dates',
+      fitNo: 'Not available for these dates',
+      fitUnknown: 'Dates to be confirmed',
+      stayResult: (a, b, n) => (n ? `${n} ${n === 1 ? 'home' : 'homes'} available ${a} – ${b}` : `No home is free for ${a} – ${b}. Try other dates or send us a request.`),
+      clearDates: 'Clear dates',
       prevPhoto: 'Previous photo',
       nextPhoto: 'Next photo',
       photosReal: 'Every photo is a real photo we took ourselves.',
@@ -154,14 +166,47 @@
   const longPrice = (h) => (h.priceWeek && h.longStay
     ? Math.round(h.priceWeek * h.longStay.minWeeks * (1 - h.longStay.discountPct / 100))
     : null);
-  const availHtml = (h) => (pick(h.availableText)
-    ? esc(pick(h.availableText))
-    : h.availableFrom ? esc(date(h.availableFrom)) : `<span class="pending-text">${esc(t('pending'))}</span>`);
+  // 입주 가능 기간: availability가 있으면 그것, 없으면 availableFrom부터 쭉
+  const windows = (h) => h.availability || (h.availableFrom ? [{ from: h.availableFrom }] : []);
+  const shortDate = (s, withYear) => {
+    const d = new Date(`${s}T00:00:00`);
+    return d.toLocaleDateString(lang === 'ko' ? 'ko-KR' : 'en-US', withYear ? { month: 'long', day: 'numeric', year: 'numeric' } : { month: 'long', day: 'numeric' });
+  };
+  const windowText = (w) => {
+    if (!w.to) return t('fromDate')(date(w.from));
+    return `${date(w.from)} ~ ${shortDate(w.to, w.to.slice(0, 4) !== w.from.slice(0, 4))}`;
+  };
+  const availHtml = (h) => {
+    const ws = windows(h);
+    if (!ws.length) return `<span class="pending-text">${esc(t('pending'))}</span>`;
+    if (ws.length === 1 && !ws[0].to) return esc(date(ws[0].from));
+    return esc(ws.map(windowText).join(', '));
+  };
+  // 고른 날짜에 머물 수 있나: true / false / null(입주일 정보 없음)
+  const fits = (h, a, b) => {
+    const ws = windows(h);
+    if (!ws.length) return null;
+    return ws.some((w) => a >= w.from && (!w.to || b <= w.to));
+  };
+  const stay = () => {
+    const f = $('#quick-dates');
+    const a = f.elements.checkIn.value; const b = f.elements.checkOut.value;
+    return a && b && b > a ? { a, b } : null;
+  };
   const longNote = (h) => (h.longStay ? t('longNote')(h.longStay.minWeeks, h.longStay.discountPct) : '');
 
   /* 숙소 카드 */
   function renderCards() {
-    $('#cards').innerHTML = homes.map((h) => {
+    const s = stay();
+    // 날짜를 고르면 예약 가능한 집을 앞으로, 안 되는 집과 정보 없는 집을 뒤로
+    const rank = (h) => (!s ? 0 : fits(h, s.a, s.b) === true ? 0 : fits(h, s.a, s.b) === null ? 1 : 2);
+    const list = homes.map((h, i) => ({ h, i })).sort((x, y) => rank(x.h) - rank(y.h) || x.i - y.i).map((x) => x.h);
+    renderStay(s, homes.filter((h) => s && fits(h, s.a, s.b) === true).length);
+    $('#cards').innerHTML = list.map((h) => {
+      const ok = s ? fits(h, s.a, s.b) : undefined;
+      const fitBadge = ok === true ? `<span class="fit fit-yes">${esc(t('fitYes'))}</span>`
+        : ok === false ? `<span class="fit fit-no">${esc(t('fitNo'))}</span>`
+        : ok === null ? `<span class="fit fit-unknown">${esc(t('fitUnknown'))}</span>` : '';
       const photo = h.photos && h.photos[0]
         ? `<img src="${esc(h.photos[0])}" alt="${esc(pick(h.name))}" loading="lazy">`
         : `<span class="photo-empty"><span>${esc(t('photoPending'))}</span></span>`;
@@ -174,7 +219,8 @@
       const fac = h.facilities || [];
       const chips = fac.slice(0, 5).map((x) => `<li>${esc(pick(x))}</li>`).join('')
         + (fac.length > 5 ? `<li class="more">${esc(t('more')(fac.length - 5))}</li>` : '');
-      return `<li class="card">
+      return `<li class="card${ok === false ? ' is-off' : ''}">
+        ${fitBadge}
         <button class="card-photo" type="button" data-open="${esc(h.id)}" aria-label="${esc(pick(h.name))} ${esc(t('details'))}">
           ${photo}<span class="guests">${esc(t('guests')(h.guests))}</span>${pick(h.highlight) ? `<span class="highlight">${esc(pick(h.highlight))}</span>` : ''}
         </button>
@@ -195,6 +241,13 @@
         </div>
       </li>`;
     }).join('');
+  }
+
+  function renderStay(s, n) {
+    const bar = $('#stay-bar');
+    bar.hidden = !s;
+    if (!s) return;
+    $('#stay-text').textContent = t('stayResult')(shortDate(s.a, false), shortDate(s.b, false), n);
   }
 
   function renderWhere() {
@@ -251,7 +304,11 @@
   function syncDates(a, b) {
     pairs.forEach(([x, y]) => { if (x !== a) { x.value = a.value; y.min = a.value || todayStr; y.value = b.value; } });
     updateNights();
+    renderCards();
   }
+  $('#stay-clear').addEventListener('click', () => {
+    const [a, b] = pairs[0]; a.value = ''; b.value = ''; b.min = todayStr; syncDates(a, b);
+  });
   function updateNights() {
     const f = $('#quick-dates');
     const a = f.elements.checkIn.value; const b = f.elements.checkOut.value;

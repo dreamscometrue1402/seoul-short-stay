@@ -20,8 +20,11 @@ const emptyHome = (n) => ({
   priceWeek: null,                 // 1주 가격(원) 예: 350000
   longStay: null,                  // 장기 할인 예: { minWeeks: 4, discountPct: 5 } → 4주 가격을 계산해서 보여 준다
   deposit: null,                   // 보증금(원) 예: 300000
-  availableFrom: '',               // 입주 가능일 예: '2026-11-15'
-  availableText: null,             // 가능 기간이 여러 개일 때 그대로 보여 줄 글 (있으면 availableFrom 대신 보인다)
+  availableFrom: '',               // 입주 가능일 예: '2026-11-15' (이날부터 쭉 가능)
+  availability: null,              // 가능 기간이 여러 개일 때. availableFrom 대신 쓴다.
+                                   // 예: [{ from: '2026-11-24', to: '2026-12-23' }, { from: '2027-01-05' }]
+                                   // to는 퇴실할 수 있는 마지막 날. to가 없으면 그날부터 쭉 가능
+                                   // 첫 화면 달력에서 고른 날짜가 이 기간 안에 들어가는 집만 "예약 가능"으로 보인다
   guests: '1~2',                   // 머물 수 있는 인원
   facilities: [],                  // 예: [{ ko: '세탁기', en: 'Washer' }, { ko: '와이파이', en: 'Wi-Fi' }]
   photos: [],                      // 예: ['assets/img/home-1/1.jpg', …] 첫 장이 대표 사진
@@ -67,7 +70,7 @@ const HOMES = {
     guests: '1~2',
     facilities: [
       f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('인덕션', 'Induction cooktop'), f('와이파이', 'Wi-Fi'),
-      f('에어컨', 'Air conditioner'), f('아일랜드 식탁', 'Kitchen island table'), f('슈퍼싱글 수납 침대', 'Super single storage bed'),
+      f('에어컨', 'Air conditioner'), f('아일랜드 식탁', 'Kitchen island table'), f('슈퍼싱글 수납 침대 (캐리어가 들어가는 깊은 수납)', 'Super single bed with deep storage (fits a suitcase)'),
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => `assets/img/home-2/${i}.jpg`),
@@ -87,7 +90,7 @@ const HOMES = {
     guests: '1~2',
     facilities: [
       f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('가스레인지', 'Gas stove'), f('와이파이', 'Wi-Fi'),
-      f('에어컨', 'Air conditioner'), f('간이 테이블과 의자', 'Folding table and chair'), f('슈퍼싱글 수납 침대', 'Super single storage bed'),
+      f('에어컨', 'Air conditioner'), f('간이 테이블과 의자', 'Folding table and chair'), f('슈퍼싱글 수납 침대 (캐리어가 들어가는 깊은 수납)', 'Super single bed with deep storage (fits a suitcase)'),
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7].map((i) => `assets/img/home-3/${i}.jpg`),
@@ -103,12 +106,11 @@ const HOMES = {
     priceWeek: 270000,
     longStay: { minWeeks: 4, discountPct: 5 },
     deposit: 300000,
-    availableFrom: '2026-11-24',
-    availableText: f('2026년 11월 24일 ~ 12월 23일, 2027년 1월 5일부터', 'Nov 24 – Dec 23, 2026, and from Jan 5, 2027'),
+    availability: [{ from: '2026-11-24', to: '2026-12-23' }, { from: '2027-01-05' }],
     guests: '1~2',
     facilities: [
       f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('가스레인지', 'Gas stove'), f('와이파이', 'Wi-Fi'),
-      f('에어컨', 'Air conditioner'), f('테이블과 의자', 'Table and chair'), f('슈퍼싱글 침대', 'Super single bed'),
+      f('에어컨', 'Air conditioner'), f('테이블과 의자', 'Table and chair'), f('슈퍼싱글 서랍 침대', 'Super single bed with drawers'),
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => `assets/img/home-4/${i}.jpg`),

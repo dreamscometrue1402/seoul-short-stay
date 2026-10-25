@@ -141,7 +141,24 @@ html[lang="en"] .hero h1 { max-width: 12ch; letter-spacing: -0.04em; }
   display: grid; gap: 20px;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
 }
+.stay-bar {
+  margin-top: 24px; padding: 14px 14px 14px 22px; border-radius: 999px;
+  background: var(--lamp); color: var(--ink);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.stay-bar p { margin: 0; font-weight: 700; font-size: 17px; }
+.stay-bar .pill { min-height: 44px; padding: 0 18px; font-size: 15px; color: var(--ink); border-color: rgba(21, 23, 42, .25); }
+.fit {
+  position: absolute; top: 14px; left: 14px; z-index: 2; padding: 6px 12px; border-radius: 999px;
+  font-size: 13px; font-weight: 700;
+}
+.fit-yes { background: var(--lamp); color: var(--ink); box-shadow: 0 0 0 3px rgba(247, 212, 74, .25); }
+.fit-no { background: var(--ink); color: var(--mist); border: 1px solid var(--ink-3); }
+.fit-unknown { background: var(--ink-3); color: var(--moon); }
+.card.is-off { opacity: .55; }
+.card.is-off .card-photo img { filter: grayscale(1); }
 .card {
+  position: relative;
   background: var(--ink-2);
   border: 1px solid var(--ink-3);
   border-radius: 32px;
