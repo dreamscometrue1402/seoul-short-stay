@@ -29,7 +29,7 @@ const f = (ko, en) => ({ ko, en });
 
 const HOMES = {
   1: {
-    name: f('합정역 도보 5분 풀옵션 원룸', 'Furnished studio, 5 min walk to Hapjeong Stn'),
+    name: f('소파 있는 아늑한 원룸', 'Cozy studio with an armchair'),
     intro: f(
       '몸만 들어와도 바로 생활할 수 있도록 필요한 기본 옵션을 모두 갖췄어요. 혼자 지내기 좋은 아늑한 원룸이에요.',
       'Everything you need is already in place, so you can move in with just your bags. A cozy studio made for living on your own.'
@@ -50,7 +50,7 @@ const HOMES = {
     photos: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `assets/img/home-1/${i}.jpg`),
   },
   2: {
-    name: f('망원동 한강공원 풀옵션 원룸', 'Furnished studio by Mangwon Hangang Park'),
+    name: f('망원한강공원 원룸', 'Mangwon Hangang Park studio'),
     intro: f(
       '필요한 기본 옵션이 모두 있어 몸만 들어와 바로 생활할 수 있어요. 아일랜드 식탁이 있어 혼자 지내기 편안한 원룸이에요.',
       'All the basics are already here, so you can move in with just your bags. A comfortable studio for one, with a kitchen island table.'
