@@ -26,7 +26,7 @@ const emptyHome = (n) => ({
   facilities: [],                  // 예: [{ ko: '세탁기', en: 'Washer' }, { ko: '와이파이', en: 'Wi-Fi' }]
   photos: [],                      // 예: ['assets/img/home-1/1.jpg', …] 첫 장이 대표 사진
   ratings: [],                     // 플랫폼 평점 예: [{ source: '삼삼엠투', score: '4.9', count: 38, url: 'https://…' }]
-  reviews: [],                     // 후기 원문 예: [{ source: '삼삼엠투', date: '2026-09', text: { ko: '원문', en: '번역' } }]
+  reviews: [],                     // 후기 원문 예: [{ source: '삼삼엠투', date: '2026-09', text: { ko: '원문', en: '번역' } }] (영어 원문이면 orig: 'en')
 });
 
 const f = (ko, en) => ({ ko, en });
@@ -97,6 +97,27 @@ const HOMES = {
       f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => `assets/img/home-2/${i}.jpg`),
+    ratings: [{ source: '삼삼엠투', score: '4.9', count: 18 }],
+    reviews: [
+      { source: '삼삼엠투', date: '2026-09', text: f('호스트님도 친절하시고, 머무르게 되어서 행복했던 공간입니다', 'The host was kind, and it was a place I was happy to stay in.') },
+      { source: '삼삼엠투', date: '2026-08', orig: 'en', text: f('위치가 정말 좋아요. 망원시장과 한강까지 걸어서 금방이에요.', 'Incredible location. Short walking distance to Mangwon Market and to the Hangang River.') },
+      { source: '삼삼엠투', date: '2026-07', text: f('지난 계약기간동안 덕분에 잘 머물고 갑니다 항상 번창하세요:)', 'Thanks to you, I had a good stay for the whole contract period. Wishing you continued success :)') },
+      { source: '삼삼엠투', date: '2026-05', text: f('편히 쉬었어요', 'I had a restful stay.') },
+      { source: '삼삼엠투', date: '2026-04', text: f('한달동안 잘 지내고 갑니다~ 호스트님 너무 친절하시고 빠른 대응 고맙습니다~', 'I had a great month here~ The host was very kind, thank you for the quick responses~') },
+      { source: '삼삼엠투', date: '2026-02', text: f('집도 깔끔하고. 궁금한거 물어보면 바로바로 연락주셔서 도움주셨습니다. 잘지냈습니다!', 'The place was neat, and whenever I asked something the host got back to me right away and helped. I had a good stay!') },
+      { source: '삼삼엠투', date: '2026-01', text: f('편안히 잘 지내다 갑니다!!!!', 'I had a comfortable stay!!!!') },
+      { source: '삼삼엠투', date: '2026-01', text: f('잘 사용하고 갑니다', 'Thanks, everything was fine.') },
+      { source: '삼삼엠투', date: '2025-12', text: f('정말 편안하게 잘 사용했습니다!!!\n방도 너무너무 깨끗하고 넘 안락하게 사용했네용!!!\n다음번에 망원동 계획이 있으면 다시 신청하겠습니다!!', 'I stayed really comfortably!!!\nThe room was so, so clean and very cozy!!!\nIf I plan to come to Mangwon-dong again, I will book again!!') },
+      { source: '삼삼엠투', date: '2025-12', text: f('잘지내다갑니다 감사합니다', 'I had a good stay, thank you.') },
+      { source: '삼삼엠투', date: '2025-11', text: f('잘 먹고 갑니다', 'Thanks for everything.') },
+      { source: '삼삼엠투', date: '2025-11', text: f('잘 머물다 갑니다.', 'I had a good stay.') },
+      { source: '삼삼엠투', date: '2025-04', text: f('잘지내다가 갑니다 퇴실 완료하였고 비번도 그대로입니다', 'I had a good stay. I have checked out and the door code is unchanged.') },
+      { source: '삼삼엠투', date: '2025-03', text: f('잘 썼습니다!', 'Everything was great!') },
+      { source: '삼삼엠투', date: '2025-03', text: f('호스트분이 친절하세요. 이웃분들 괜찮으시지만 방에 방음이 안 되서 그 부분은 불편했습니다.', 'The host is kind. The neighbors are fine, but the room is not soundproofed, which was uncomfortable.') },
+      { source: '삼삼엠투', date: '2025-01', text: f('숙소가 조용하고 깨끗하고 주위 인프라도 좋고 무엇보다 건물주님 피드백이 빠르고 좋으셨어서 감사히 잘 지냈습니다. 다음에 또 오고싶은 숙소입니다. 혼자 여행하시는분들께 추천해 드리고 싶어요', 'The place was quiet and clean, the area has everything you need, and above all the owner replied quickly and kindly, so I had a great stay. I would love to come back. I would recommend it to solo travelers.') },
+      { source: '삼삼엠투', date: '2025-01', text: f('아주 깔끔하고 있을 건 다 있는 집이었습니다. 다만 드라이기가 없어서 머리 말리는 게 조금 어려웠습니다. 그리고 계단 바로 옆이라 사람들 지나가는 소리가 크게 들립니다. 그거 외에는 이 가격에 위치도 그렇고 집 상태도 그렇고 정말 훌륭했습니다!', 'A very clean home with everything you need. There was no hair dryer, so drying my hair was a bit hard. It is right next to the stairs, so you can clearly hear people passing by. Other than that, for this price, the location and the condition of the home were really excellent!') },
+      { source: '삼삼엠투', date: '2024-10', text: f('감사합니다! 깨끗하고 잘 썼습니다', 'Thank you! It was clean and I had a good stay.') },
+    ],
   },
   3: {
     name: f('망리단길 풀옵션 원룸', 'Furnished studio on Mangridan-gil'),

@@ -46,7 +46,7 @@
       reviewsTitle: '후기',
       rating: (r) => `${r.source} 평점 ${r.score}${r.count ? `, 후기 ${r.count}개` : ''}`,
       ratingShort: (r) => `${r.source} 후기 ${r.count}개`,
-      translated: '',
+      translated: '영어 후기를 번역했어요',
       inquiryTitle: '마음에 드는 집과 날짜를 남겨 주세요',
       inquirySub: '확인한 뒤 남겨 주신 연락처로 가능 여부와 안내를 드릴게요. 아직 결제나 확정 단계가 아니에요.',
       fName: '이름',
@@ -275,7 +275,9 @@
   };
   const reviewItem = (r, home) => {
     const meta = [home ? pick(home.name) : '', r.source, month(r.date)].filter(Boolean).join(', ');
-    const note = lang === 'en' && t('translated') ? ` <em>${esc(t('translated'))}</em>` : '';
+    // 원문과 다른 언어로 보여 줄 때만 "번역" 표시 (후기 원문은 한국어가 기본, orig: 'en'이면 영어)
+    const shown = lang === 'ko' ? 'ko' : 'en'; const orig = r.orig || 'ko';
+    const note = shown !== orig ? ` <em>${esc(t('translated'))}</em>` : '';
     return `<li><blockquote>${esc(pick(r.text))}</blockquote><p>${esc(meta)}${note}</p></li>`;
   };
 
