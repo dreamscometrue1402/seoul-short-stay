@@ -49,6 +49,26 @@ const HOMES = {
     ],
     photos: [1, 2, 3, 4, 5, 6, 7, 8].map((i) => `assets/img/home-1/${i}.jpg`),
   },
+  2: {
+    name: f('망원동 한강공원 풀옵션 원룸', 'Furnished studio by Mangwon Hangang Park'),
+    intro: f(
+      '필요한 기본 옵션이 모두 있어 몸만 들어와 바로 생활할 수 있어요. 아일랜드 식탁이 있어 혼자 지내기 편안한 원룸이에요.',
+      'All the basics are already here, so you can move in with just your bags. A comfortable studio for one, with a kitchen island table.'
+    ),
+    area: f('마포구 망원동', 'Mangwon-dong, Mapo-gu'),
+    station: f('망원역', 'Mangwon Station'),
+    priceWeek: 260000,
+    longStay: { minWeeks: 4, discountPct: 5 },
+    deposit: 300000,
+    availableFrom: '2027-03-01',
+    guests: '1~2',
+    facilities: [
+      f('냉장고', 'Refrigerator'), f('세탁기', 'Washer'), f('인덕션', 'Induction cooktop'), f('와이파이', 'Wi-Fi'),
+      f('에어컨', 'Air conditioner'), f('아일랜드 식탁', 'Kitchen island table'), f('슈퍼싱글 침대', 'Super single bed'),
+      f('전자레인지', 'Microwave'), f('전기포트', 'Electric kettle'), f('행거', 'Clothes rack'), f('신발장', 'Shoe cabinet'),
+    ],
+    photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => `assets/img/home-2/${i}.jpg`),
+  },
 };
 
 window.LISTINGS = [1, 2, 3, 4, 5, 6].map((n) => ({ ...emptyHome(n), ...(HOMES[n] || {}) }));
